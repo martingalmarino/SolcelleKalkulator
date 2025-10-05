@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { ChevronRight, MapPin, ArrowRight } from "lucide-react";
+import { ChevronRight, MapPin, ArrowRight, TrendingUp, HelpCircle } from "lucide-react";
 import Link from "next/link";
 import { priceData, FylkeType } from "@/lib/priceData";
 import { kommuneData, KommuneType } from "@/lib/priceData";
@@ -75,37 +75,20 @@ export default function SEOInterlinking({ fylke, kommune }: SEOInterlinkingProps
 
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Breadcrumbs */}
-          <nav className="mb-12" aria-label="Breadcrumb">
-            <ol className="flex items-center space-x-2 text-sm">
-              {breadcrumbs.map((crumb, index) => (
-                <li key={crumb.href} className="flex items-center">
-                  {index > 0 && (
-                    <ChevronRight className="w-4 h-4 text-gray-400 mx-2" />
-                  )}
-                  {index === breadcrumbs.length - 1 ? (
-                    <span className="text-gray-900 font-medium">{crumb.name}</span>
-                  ) : (
-                    <Link 
-                      href={crumb.href}
-                      className="text-blue-600 hover:text-blue-700 hover:underline"
-                    >
-                      {crumb.name}
-                    </Link>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </nav>
 
           {/* Related Regions */}
           {relatedRegions.length > 0 && (
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
-                {kommune ? `Andre kommuner i ${fylke}` : 'Andre populære steder for solceller'}
-              </h2>
+            <div className="mb-16">
+              <div className="text-center mb-12">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                  {kommune ? `Andre kommuner i ${fylke}` : 'Andre populære steder for solceller'}
+                </h2>
+                <p className="text-gray-600 max-w-2xl mx-auto">
+                  Utforsk andre områder i Norge for å sammenligne strømpriser og tilgjengelig støtte
+                </p>
+              </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {relatedRegions.map((region) => {
                   const href = region.type === 'kommune' 
                     ? `/solcelle-kalkulator/${region.fylke?.toLowerCase().replace(/\s+/g, '-')}/${region.name.toLowerCase().replace(/\s+/g, '-')}`
@@ -119,26 +102,28 @@ export default function SEOInterlinking({ fylke, kommune }: SEOInterlinkingProps
                     <Link
                       key={region.name}
                       href={href}
-                      className="group flex items-center justify-between p-4 bg-white border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-lg transition-all duration-300"
+                      className="group bg-white border border-gray-200 rounded-2xl p-6 hover:border-blue-300 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                     >
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-600 transition-colors duration-300">
-                          <MapPin className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors duration-300" />
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                          <MapPin className="w-6 h-6 text-blue-600" />
                         </div>
-                        <div>
-                          <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
-                            {region.name}
-                          </h3>
-                          <p className="text-sm text-gray-600">
-                            {region.type === 'kommune' ? region.fylke : 'Fylke'}
-                          </p>
-                        </div>
+                        <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300" />
                       </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-gray-600">
-                          {price} NOK/kWh
-                        </span>
-                        <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300" />
+                      
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300 mb-2">
+                          {region.name}
+                        </h3>
+                        <p className="text-sm text-gray-600 mb-3">
+                          {region.type === 'kommune' ? region.fylke : 'Fylke'}
+                        </p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-gray-500">Strømpris</span>
+                          <span className="text-lg font-bold text-blue-600">
+                            {price} NOK/kWh
+                          </span>
+                        </div>
                       </div>
                     </Link>
                   );
@@ -148,15 +133,24 @@ export default function SEOInterlinking({ fylke, kommune }: SEOInterlinkingProps
           )}
 
           {/* Additional Resources */}
-          <div className="mt-12 pt-8 border-t border-gray-200">
-            <h3 className="text-xl font-semibold text-gray-900 mb-6">
-              Flere ressurser
-            </h3>
+          <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                Flere ressurser
+              </h3>
+              <p className="text-gray-600">
+                Utforsk mer informasjon om solceller og støtteordninger
+              </p>
+            </div>
+            
             <div className="grid md:grid-cols-3 gap-6">
               <Link 
                 href="/solcelle-kalkulator"
-                className="group p-6 bg-white border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-lg transition-all duration-300"
+                className="group p-6 bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-2xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
               >
+                <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <MapPin className="w-6 h-6 text-white" />
+                </div>
                 <h4 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300 mb-2">
                   Alle fylker
                 </h4>
@@ -167,9 +161,12 @@ export default function SEOInterlinking({ fylke, kommune }: SEOInterlinkingProps
               
               <Link 
                 href="#"
-                className="group p-6 bg-white border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-lg transition-all duration-300"
+                className="group p-6 bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-2xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
               >
-                <h4 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300 mb-2">
+                <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <TrendingUp className="w-6 h-6 text-white" />
+                </div>
+                <h4 className="font-semibold text-gray-900 group-hover:text-green-600 transition-colors duration-300 mb-2">
                   Støtteordninger
                 </h4>
                 <p className="text-sm text-gray-600">
@@ -179,9 +176,12 @@ export default function SEOInterlinking({ fylke, kommune }: SEOInterlinkingProps
               
               <Link 
                 href="#"
-                className="group p-6 bg-white border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-lg transition-all duration-300"
+                className="group p-6 bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 rounded-2xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
               >
-                <h4 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300 mb-2">
+                <div className="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <HelpCircle className="w-6 h-6 text-white" />
+                </div>
+                <h4 className="font-semibold text-gray-900 group-hover:text-purple-600 transition-colors duration-300 mb-2">
                   Ofte stilte spørsmål
                 </h4>
                 <p className="text-sm text-gray-600">

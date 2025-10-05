@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MapPin, Zap, Building2, TrendingUp } from "lucide-react";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import Calculator from "@/components/Calculator";
 import LocalInsights from "@/components/LocalInsights";
 import InfoSections from "@/components/InfoSections";
@@ -65,8 +66,16 @@ export default function FylkePage({ params }: FylkePageProps) {
   const localSupport = incentivesData.local[fylkeKey as keyof typeof incentivesData.local];
   const enovaSupport = incentivesData.enova;
 
+  const breadcrumbItems = [
+    { name: "Solcelle Kalkulator", href: "/solcelle-kalkulator" },
+    { name: fylkeName, href: `/solcelle-kalkulator/${params.fylke}` }
+  ];
+
   return (
     <div className="min-h-screen bg-white">
+      {/* Breadcrumbs */}
+      <Breadcrumbs items={breadcrumbItems} />
+      
       {/* Fylke Hero Section */}
       <section className="relative bg-gradient-to-br from-blue-50 via-white to-green-50 py-20 lg:py-32">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
