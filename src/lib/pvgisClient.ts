@@ -1,66 +1,126 @@
-// PVGIS API client for solar radiation data
-// Example call: https://re.jrc.ec.europa.eu/api/v5_2/PVcalc?lat=59.9&lon=10.7&peakpower=5&loss=14
+// PVGIS API integration for accurate solar production data
+// API endpoint: https://re.jrc.ec.europa.eu/api/v5_2/PVcalc
+// No API key required - open data from European Commission
 
-export interface PVGISResponse {
+interface SolarData {
+  annualProductionKWh: number;
+  monthlyData?: number[]; // Optional monthly breakdown
+}
+
+interface PVGISResponse {
   outputs: {
     totals: {
       fixed: {
-        E_y: number; // Annual kWh produced
+        E_y: number; // Annual energy production in kWh
       };
     };
   };
 }
 
-export interface SolarData {
-  annualProductionKWh: number;
-  peakSunHours: number;
+// Cache for PVGIS API responses
+const cache = new Map<string, SolarData>();
+
+// Generate cache key
+function getCacheKey(lat: number, lon: number, systemSizeKW: number): string {
+  return `${lat.toFixed(4)},${lon.toFixed(4)},${systemSizeKW}`;
 }
 
-// Coordinates for major cities in each fylke (for MVP)
-export const fylkeCoordinates = {
-  Oslo: { lat: 59.9139, lon: 10.7522 },
-  Viken: { lat: 59.7458, lon: 10.2344 },
-  Vestland: { lat: 60.3913, lon: 5.3221 },
-  Trøndelag: { lat: 63.4305, lon: 10.3951 },
-  Rogaland: { lat: 58.9700, lon: 5.7331 },
-  Agder: { lat: 58.1467, lon: 7.9956 },
-  "Møre og Romsdal": { lat: 62.4722, lon: 6.1549 },
-  Nordland: { lat: 67.2804, lon: 14.4049 },
-  "Troms og Finnmark": { lat: 69.6492, lon: 18.9553 },
-  Innlandet: { lat: 60.7945, lon: 11.0680 },
-  Telemark: { lat: 59.3914, lon: 8.7123 }
-};
-
-export async function fetchSolarData(
-  fylke: keyof typeof fylkeCoordinates,
+// Fetch annual solar production from PVGIS API
+export async function fetchAnnualProduction(
+  lat: number, 
+  lon: number, 
   systemSizeKW: number
-): Promise<SolarData> {
-  const coords = fylkeCoordinates[fylke];
+): Promise<number | null> {
+  const cacheKey = getCacheKey(lat, lon, systemSizeKW);
+  
+  // Check cache first
+  if (cache.has(cacheKey)) {
+    console.log(`Using cached PVGIS data for ${cacheKey}`);
+    return cache.get(cacheKey)!.annualProductionKWh;
+  }
+
+  const url = `https://re.jrc.ec.europa.eu/api/v5_2/PVcalc?lat=${lat}&lon=${lon}&peakpower=${systemSizeKW}&loss=14&outputformat=json`;
   
   try {
-    const response = await fetch(
-      `https://re.jrc.ec.europa.eu/api/v5_2/PVcalc?lat=${coords.lat}&lon=${coords.lon}&peakpower=${systemSizeKW}&loss=14`
-    );
+    console.log(`Fetching PVGIS data from: ${url}`);
     
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+      },
+    });
+
     if (!response.ok) {
-      throw new Error('Failed to fetch solar data');
+      throw new Error(`PVGIS API error: ${response.status} ${response.statusText}`);
     }
-    
+
     const data: PVGISResponse = await response.json();
-    const annualProductionKWh = data.outputs.totals.fixed.E_y;
-    const peakSunHours = annualProductionKWh / systemSizeKW;
     
-    return {
-      annualProductionKWh,
-      peakSunHours
+    if (!data.outputs?.totals?.fixed?.E_y) {
+      throw new Error('Invalid PVGIS response format');
+    }
+
+    const annualProduction = Math.round(data.outputs.totals.fixed.E_y);
+    
+    // Cache the result
+    const solarData: SolarData = {
+      annualProductionKWh: annualProduction
     };
+    cache.set(cacheKey, solarData);
+    
+    console.log(`PVGIS data cached: ${annualProduction} kWh for ${systemSizeKW} kW system`);
+    
+    return annualProduction;
+    
   } catch (error) {
-    console.error('Error fetching solar data:', error);
-    // Fallback values based on typical Norwegian solar conditions
-    const fallbackProduction = systemSizeKW * 800; // Conservative estimate
+    console.error('PVGIS fetch failed:', error);
+    return null;
+  }
+}
+
+// Legacy function for backward compatibility
+export async function fetchSolarData(fylke: string, systemSizeKW: number): Promise<SolarData> {
+  // Import location data dynamically to avoid circular dependencies
+  const { locationData, fallbackProductionPerKW } = await import('./locationData');
+  
+  const location = locationData[fylke as keyof typeof locationData];
+  
+  if (!location) {
+    console.warn(`No location data found for ${fylke}, using fallback`);
+    const fallbackProduction = fallbackProductionPerKW[fylke as keyof typeof fallbackProductionPerKW] || 900;
     return {
-      annualProductionKWh: fallbackProduction,
-      peakSunHours: 800
+      annualProductionKWh: systemSizeKW * fallbackProduction
     };
   }
+
+  const annualProduction = await fetchAnnualProduction(
+    location.lat, 
+    location.lon, 
+    systemSizeKW
+  );
+
+  if (annualProduction === null) {
+    // Use fallback production
+    const fallbackProduction = fallbackProductionPerKW[fylke as keyof typeof fallbackProductionPerKW] || 900;
+    console.log(`Using fallback production: ${fallbackProduction} kWh/kW for ${fylke}`);
+    return {
+      annualProductionKWh: systemSizeKW * fallbackProduction
+    };
+  }
+
+  return {
+    annualProductionKWh: annualProduction
+  };
+}
+
+// Clear cache (useful for testing or when cache becomes too large)
+export function clearPVGISCache(): void {
+  cache.clear();
+  console.log('PVGIS cache cleared');
+}
+
+// Get cache size (for monitoring)
+export function getCacheSize(): number {
+  return cache.size;
 }

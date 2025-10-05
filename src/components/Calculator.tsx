@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Calculator as CalculatorIcon, MapPin, Zap, Loader2 } from "lucide-react";
 import { calcROI, ROICalculationResult } from "../lib/calcROI";
 import { priceData, FylkeType } from "../lib/priceData";
-import { fetchSolarData } from "../lib/pvgisClient";
+import { locationData, fallbackProductionPerKW } from "../lib/locationData";
 import ResultCard from "./ResultCard";
 
 export default function Calculator() {
@@ -16,22 +16,69 @@ export default function Calculator() {
   const handleCalculate = async () => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
-      // Fetch solar data from PVGIS API
-      const solarData = await fetchSolarData(fylke, systemSize);
+      console.log(`Calculating ROI for ${fylke}, ${systemSize} kW system`);
       
-      // Calculate ROI
+      // Get location coordinates for the selected fylke
+      const location = locationData[fylke];
+      
+      let annualProduction: number;
+      
+      if (location) {
+        // Try to fetch real PVGIS data
+        console.log(`Fetching PVGIS data for ${fylke} at lat: ${location.lat}, lon: ${location.lon}`);
+        
+        const { fetchAnnualProduction } = await import("../lib/pvgisClient");
+        const pvgisProduction = await fetchAnnualProduction(location.lat, location.lon, systemSize);
+        
+        if (pvgisProduction !== null) {
+          annualProduction = pvgisProduction;
+          console.log(`Using PVGIS data: ${annualProduction} kWh/year`);
+        } else {
+          // Fallback to estimated production
+          const fallbackProduction = fallbackProductionPerKW[fylke] || 900;
+          annualProduction = systemSize * fallbackProduction;
+          console.log(`Using fallback production: ${fallbackProduction} kWh/kW = ${annualProduction} kWh/year`);
+        }
+      } else {
+        // No location data, use fallback
+        const fallbackProduction = fallbackProductionPerKW[fylke] || 900;
+        annualProduction = systemSize * fallbackProduction;
+        console.log(`No location data for ${fylke}, using fallback: ${fallbackProduction} kWh/kW = ${annualProduction} kWh/year`);
+      }
+
+      // Calculate ROI with the production data
       const roi = calcROI({
         fylke,
         systemSizeKW: systemSize,
-        annualProductionKWh: solarData.annualProductionKWh
+        annualProductionKWh: annualProduction
       });
-      
+
+      console.log(`ROI calculation result:`, roi);
       setResult(roi);
+      
     } catch (err) {
-      setError("Kunne ikke hente solcelledata. Prøv igjen senere.");
       console.error("Calculation error:", err);
+      setError("Kunne ikke hente solcelledata. Prøv igjen senere.");
+      
+      // Even if there's an error, try to provide a fallback calculation
+      try {
+        const fallbackProduction = fallbackProductionPerKW[fylke] || 900;
+        const fallbackAnnualProduction = systemSize * fallbackProduction;
+        
+        const fallbackROI = calcROI({
+          fylke,
+          systemSizeKW: systemSize,
+          annualProductionKWh: fallbackAnnualProduction
+        });
+        
+        setResult(fallbackROI);
+        setError("Bruker estimerte verdier - PVGIS data ikke tilgjengelig.");
+      } catch (fallbackErr) {
+        console.error("Fallback calculation also failed:", fallbackErr);
+        setError("Kunne ikke beregne resultater. Prøv igjen senere.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -112,14 +159,14 @@ export default function Calculator() {
                 disabled={isLoading}
                 className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 text-white py-3 md:py-4 rounded-lg md:rounded-xl font-semibold text-base md:text-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg disabled:transform-none disabled:shadow-none"
               >
-                {isLoading ? (
-                  <div className="flex items-center justify-center gap-2 md:gap-3">
-                    <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin" />
-                    Beregner...
-                  </div>
-                ) : (
-                  "Beregn besparelse"
-                )}
+                  {isLoading ? (
+                    <div className="flex items-center justify-center gap-2 md:gap-3">
+                      <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin" />
+                      Henter solcelledata...
+                    </div>
+                  ) : (
+                    "Beregn besparelse"
+                  )}
               </button>
 
               {/* Error Message */}
