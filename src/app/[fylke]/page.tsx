@@ -1,6 +1,9 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { MapPin, Zap, Building2, TrendingUp } from "lucide-react";
 import Calculator from "@/components/Calculator";
+import InfoSections from "@/components/InfoSections";
+import Footer from "@/components/Footer";
 import { priceData, FylkeType } from "@/lib/priceData";
 import { incentivesData } from "@/lib/incentivesData";
 
@@ -60,62 +63,63 @@ export default function FylkePage({ params }: FylkePageProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-primary">Solcelle Kalkulator</h1>
-              <p className="text-text-secondary text-sm">Beregn din besparelse i {fylkeName}</p>
+      {/* Fylke Hero Section */}
+      <section className="relative bg-gradient-to-br from-primary-50 via-white to-success-50 py-20 lg:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 bg-primary-100 text-primary-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
+              <MapPin className="w-4 h-4" />
+              {fylkeName} fylke
             </div>
-            <div className="text-right">
-              <p className="text-xs text-text-secondary">🇳🇴 {fylkeName}</p>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-50 to-green-50 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-4xl font-bold text-text-primary mb-4">
-              Solceller i {fylkeName}
-            </h2>
-            <p className="text-xl text-text-secondary max-w-3xl mx-auto">
+            
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-6 leading-tight">
+              Solceller i{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-success-600">
+                {fylkeName}
+              </span>
+            </h1>
+            <p className="text-xl md:text-2xl text-text-secondary max-w-4xl mx-auto leading-relaxed">
               Beregn din besparelse med solceller i {fylkeName}. 
               Få oversikt over tilgjengelig støtte og tilbakebetalingstid for ditt område.
             </p>
           </div>
 
-          {/* Fylke-specific info */}
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
-            <div className="bg-white rounded-lg p-6 shadow-card text-center">
-              <div className="text-3xl mb-2">⚡</div>
-              <h3 className="font-semibold text-text-primary mb-2">Strømpris</h3>
-              <p className="text-2xl font-bold text-primary">{powerPrice} NOK/kWh</p>
-              <p className="text-sm text-text-secondary mt-1">Gjennomsnittlig pris i {fylkeName}</p>
+          {/* Fylke-specific info cards */}
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <div className="bg-white rounded-2xl p-8 shadow-elevated border border-border-muted text-center group hover:shadow-xl transition-all duration-300">
+              <div className="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Zap className="w-8 h-8 text-primary-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-text-primary mb-2">Strømpris</h3>
+              <p className="text-3xl font-bold text-primary-600 mb-2">{powerPrice} NOK/kWh</p>
+              <p className="text-text-secondary">Gjennomsnittlig pris i {fylkeName}</p>
             </div>
             
-            <div className="bg-white rounded-lg p-6 shadow-card text-center">
-              <div className="text-3xl mb-2">🏛️</div>
-              <h3 className="font-semibold text-text-primary mb-2">Enova-støtte</h3>
-              <p className="text-2xl font-bold text-secondary">{enovaSupport.baseGrantNOK.toLocaleString()} NOK</p>
-              <p className="text-sm text-text-secondary mt-1">Grunnstøtte + {enovaSupport.perKWNOK} NOK/kW</p>
+            <div className="bg-white rounded-2xl p-8 shadow-elevated border border-border-muted text-center group hover:shadow-xl transition-all duration-300">
+              <div className="w-16 h-16 bg-success-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Building2 className="w-8 h-8 text-success-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-text-primary mb-2">Enova-støtte</h3>
+              <p className="text-3xl font-bold text-success-600 mb-2">{enovaSupport.baseGrantNOK.toLocaleString()} NOK</p>
+              <p className="text-text-secondary">Grunnstøtte + {enovaSupport.perKWNOK} NOK/kW</p>
             </div>
             
-            <div className="bg-white rounded-lg p-6 shadow-card text-center">
-              <div className="text-3xl mb-2">🏘️</div>
-              <h3 className="font-semibold text-text-primary mb-2">Lokal støtte</h3>
+            <div className="bg-white rounded-2xl p-8 shadow-elevated border border-border-muted text-center group hover:shadow-xl transition-all duration-300">
+              <div className="w-16 h-16 bg-success-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <TrendingUp className="w-8 h-8 text-success-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-text-primary mb-2">Lokal støtte</h3>
               {localSupport ? (
                 <>
-                  <p className="text-2xl font-bold text-secondary">{localSupport.extraGrantNOK.toLocaleString()} NOK</p>
-                  <p className="text-sm text-text-secondary mt-1">Ekstra tilskudd fra {fylkeName}</p>
+                  <p className="text-3xl font-bold text-success-600 mb-2">{localSupport.extraGrantNOK.toLocaleString()} NOK</p>
+                  <p className="text-text-secondary">Ekstra tilskudd fra {fylkeName}</p>
                 </>
               ) : (
                 <>
-                  <p className="text-lg font-bold text-text-secondary">Ikke tilgjengelig</p>
-                  <p className="text-sm text-text-secondary mt-1">Kontakt din kommune</p>
+                  <p className="text-2xl font-bold text-text-secondary mb-2">Ikke tilgjengelig</p>
+                  <p className="text-text-secondary">Kontakt din kommune</p>
                 </>
               )}
             </div>
@@ -123,80 +127,9 @@ export default function FylkePage({ params }: FylkePageProps) {
         </div>
       </section>
 
-      {/* Calculator Section */}
-      <section className="py-12 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center">
-            <Calculator />
-          </div>
-        </div>
-      </section>
-
-      {/* Fylke-specific information */}
-      <section className="py-12 bg-background-alt">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-2xl font-semibold text-text-primary mb-4">
-                Solceller i {fylkeName}
-              </h3>
-              <div className="space-y-4 text-text-secondary">
-                <p>
-                  {fylkeName} har gode forhold for solcelleinstallasjon med gjennomsnittlig 
-                  strømpris på {powerPrice} NOK/kWh. Dette gir deg en solid besparelse 
-                  på strømregningen.
-                </p>
-                {localSupport && (
-                  <p>
-                    <strong>Lokal støtte:</strong> {localSupport.description}
-                  </p>
-                )}
-                <p>
-                  <strong>Enova-støtte:</strong> {enovaSupport.description}
-                </p>
-              </div>
-            </div>
-            
-            <div>
-              <h3 className="text-2xl font-semibold text-text-primary mb-4">
-                Neste steg
-              </h3>
-              <ol className="space-y-3 text-text-secondary">
-                <li className="flex items-start">
-                  <span className="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">1</span>
-                  Bruk kalkulatoren for å beregne din besparelse
-                </li>
-                <li className="flex items-start">
-                  <span className="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">2</span>
-                  Kontakt lokale installatører i {fylkeName}
-                </li>
-                <li className="flex items-start">
-                  <span className="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">3</span>
-                  Søk om støtte fra Enova og din kommune
-                </li>
-                <li className="flex items-start">
-                  <span className="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">4</span>
-                  Start din grønne energireise!
-                </li>
-              </ol>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-text-primary text-white py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-sm opacity-80">
-              © 2024 Solcelle Kalkulator. Beregningene er estimater basert på gjennomsnittlige forhold i {fylkeName}.
-            </p>
-            <p className="text-xs opacity-60 mt-2">
-              Faktiske resultater kan variere avhengig av lokale forhold og installasjonskvalitet.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Calculator />
+      <InfoSections />
+      <Footer />
     </div>
   );
 }
