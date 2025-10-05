@@ -40,7 +40,7 @@ export default function Calculator() {
   const fylkeOptions = Object.keys(priceData) as FylkeType[];
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section id="calculator" className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
           {/* Calculator Header */}
@@ -57,18 +57,18 @@ export default function Calculator() {
           </div>
 
           {/* Calculator Card */}
-          <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 border border-gray-100">
-            <div className="space-y-8">
+          <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl p-6 md:p-8 lg:p-12 border border-gray-100">
+            <div className="space-y-6 md:space-y-8">
               {/* Fylke Selection */}
-              <div className="space-y-3">
-                <label className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-                  <MapPin className="w-5 h-5 text-blue-600" />
+              <div className="space-y-2 md:space-y-3">
+                <label className="flex items-center gap-2 text-base md:text-lg font-semibold text-gray-900">
+                  <MapPin className="w-4 h-4 md:w-5 md:h-5 text-blue-600" />
                   Velg ditt fylke
                 </label>
                 <select 
                   value={fylke} 
                   onChange={(e) => setFylke(e.target.value as FylkeType)}
-                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-4 text-lg focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-200 bg-gray-50"
+                  className="w-full border-2 border-gray-200 rounded-lg md:rounded-xl px-3 md:px-4 py-3 md:py-4 text-base md:text-lg focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-200 bg-gray-50"
                   title="Velg ditt fylke"
                 >
                   {fylkeOptions.map((option) => (
@@ -80,9 +80,9 @@ export default function Calculator() {
               </div>
 
               {/* System Size Input */}
-              <div className="space-y-3">
-                <label className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-                  <Zap className="w-5 h-5 text-blue-600" />
+              <div className="space-y-2 md:space-y-3">
+                <label className="flex items-center gap-2 text-base md:text-lg font-semibold text-gray-900">
+                  <Zap className="w-4 h-4 md:w-5 md:h-5 text-blue-600" />
                   Systemstørrelse (kW)
                 </label>
                 <div className="relative">
@@ -93,14 +93,14 @@ export default function Calculator() {
                     min="1"
                     max="50"
                     step="0.5"
-                    className="w-full border-2 border-gray-200 rounded-xl px-4 py-4 text-lg focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-200 bg-gray-50"
+                    className="w-full border-2 border-gray-200 rounded-lg md:rounded-xl px-3 md:px-4 py-3 md:py-4 text-base md:text-lg focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-200 bg-gray-50"
                     placeholder="F.eks. 5"
                   />
-                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                  <div className="absolute right-3 md:right-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm md:text-base">
                     kW
                   </div>
                 </div>
-                <p className="text-sm text-gray-600 flex items-center gap-2">
+                <p className="text-xs md:text-sm text-gray-600 flex items-center gap-2">
                   <span className="w-2 h-2 bg-green-500 rounded-full"></span>
                   Typisk husholdning: 3-8 kW
                 </p>
@@ -110,11 +110,11 @@ export default function Calculator() {
               <button 
                 onClick={handleCalculate}
                 disabled={isLoading}
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 text-white py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg disabled:transform-none disabled:shadow-none"
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 text-white py-3 md:py-4 rounded-lg md:rounded-xl font-semibold text-base md:text-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg disabled:transform-none disabled:shadow-none"
               >
                 {isLoading ? (
-                  <div className="flex items-center justify-center gap-3">
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                  <div className="flex items-center justify-center gap-2 md:gap-3">
+                    <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin" />
                     Beregner...
                   </div>
                 ) : (
@@ -124,8 +124,8 @@ export default function Calculator() {
 
               {/* Error Message */}
               {error && (
-                <div className="bg-red-50 border-2 border-red-200 rounded-xl p-4">
-                  <p className="text-red-700 font-medium">{error}</p>
+                <div className="bg-red-50 border-2 border-red-200 rounded-lg md:rounded-xl p-3 md:p-4">
+                  <p className="text-red-700 font-medium text-sm md:text-base">{error}</p>
                 </div>
               )}
 

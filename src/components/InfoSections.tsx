@@ -1,7 +1,8 @@
+"use client";
 import React from "react";
-import { 
-  TrendingUp, 
-  Shield, 
+import {
+  TrendingUp,
+  Shield,
   Home,
   ArrowRight,
   Calculator,
@@ -62,7 +63,7 @@ export default function InfoSections() {
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section id="info-sections" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Left Column - Benefits */}
@@ -156,7 +157,10 @@ export default function InfoSections() {
                 <p className="text-gray-600 mb-6">
                   Start med å beregne din potensielle besparelse i dag
                 </p>
-                <button className="group inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                <button 
+                  onClick={() => document.getElementById('calculator')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="group inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+                >
                   Start beregning
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </button>

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Sun, Zap, TrendingUp } from "lucide-react";
 
@@ -38,10 +39,16 @@ export default function Hero() {
 
           {/* CTA Button */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="group relative px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5">
+            <button 
+              onClick={() => document.getElementById('calculator')?.scrollIntoView({ behavior: 'smooth' })}
+              className="group relative px-6 md:px-8 py-3 md:py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg md:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 text-sm md:text-base"
+            >
               <span className="relative z-10">Start beregning</span>
             </button>
-            <button className="px-8 py-4 border-2 border-blue-200 hover:border-blue-300 text-blue-700 hover:text-blue-800 font-semibold rounded-xl transition-all duration-300 hover:bg-blue-50">
+            <button 
+              onClick={() => document.getElementById('info-sections')?.scrollIntoView({ behavior: 'smooth' })}
+              className="px-6 md:px-8 py-3 md:py-4 border-2 border-blue-200 hover:border-blue-300 text-blue-700 hover:text-blue-800 font-semibold rounded-lg md:rounded-xl transition-all duration-300 hover:bg-blue-50 text-sm md:text-base"
+            >
               Lær mer
             </button>
           </div>
