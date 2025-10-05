@@ -3,7 +3,7 @@ import { Sun, Zap, TrendingUp } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="relative bg-gradient-to-br from-blue-50 via-white to-green-50 py-20 lg:py-32 overflow-hidden">
+    <section className="relative bg-gradient-to-br from-blue-50 via-white to-green-50 py-20 lg:py-32">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           {/* Main Headline */}
@@ -48,10 +48,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Floating Elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-blue-100 rounded-full opacity-60 animate-pulse"></div>
-      <div className="absolute bottom-20 right-10 w-16 h-16 bg-green-100 rounded-full opacity-60 animate-pulse"></div>
-      <div className="absolute top-1/2 left-1/4 w-12 h-12 bg-blue-200 rounded-full opacity-40 animate-pulse"></div>
     </section>
   );
 }
