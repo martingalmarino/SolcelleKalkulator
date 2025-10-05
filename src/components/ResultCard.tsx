@@ -38,9 +38,9 @@ export default function ResultCard({ result, fylke }: ResultCardProps) {
 
   const getPaybackStatus = (years: number) => {
     if (years <= 8) return {
-      color: "text-success-600",
-      bgColor: "bg-success-50",
-      borderColor: "border-success-200",
+      color: "text-green-600",
+      bgColor: "bg-green-50",
+      borderColor: "border-green-200",
       icon: CheckCircle2,
       message: "Utmerket investering!",
       badge: "Anbefalt"
@@ -67,9 +67,9 @@ export default function ResultCard({ result, fylke }: ResultCardProps) {
   const StatusIcon = paybackStatus.icon;
 
   return (
-    <div className="mt-8 bg-gradient-to-br from-white to-background-muted rounded-3xl shadow-elevated border border-border-muted overflow-hidden">
+    <div className="mt-8 bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-8 py-6">
+      <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
@@ -77,7 +77,7 @@ export default function ResultCard({ result, fylke }: ResultCardProps) {
             </div>
             <div>
               <h3 className="text-xl font-bold text-white">Dine resultater</h3>
-              <p className="text-primary-100 flex items-center gap-1">
+              <p className="text-blue-100 flex items-center gap-1">
                 <MapPin className="w-4 h-4" />
                 {fylke} fylke
               </p>
@@ -93,30 +93,30 @@ export default function ResultCard({ result, fylke }: ResultCardProps) {
       <div className="p-8">
         <div className="grid md:grid-cols-2 gap-6 mb-8">
           {/* Annual Savings */}
-          <div className="bg-white rounded-2xl p-6 border border-border-muted shadow-soft">
+          <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-lg">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-success-100 rounded-xl flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-success-600" />
+              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                <TrendingUp className="w-6 h-6 text-green-600" />
               </div>
               <div>
-                <h4 className="font-semibold text-text-primary">Årlig besparelse</h4>
-                <p className="text-sm text-text-secondary">På strømregningen</p>
+                <h4 className="font-semibold text-gray-900">Årlig besparelse</h4>
+                <p className="text-sm text-gray-600">På strømregningen</p>
               </div>
             </div>
-            <div className="text-3xl font-bold text-success-600">
+            <div className="text-3xl font-bold text-green-600">
               {formatCurrency(result.annualSavings)}
             </div>
           </div>
 
           {/* Payback Period */}
-          <div className="bg-white rounded-2xl p-6 border border-border-muted shadow-soft">
+          <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-lg">
             <div className="flex items-center gap-3 mb-4">
               <div className={`w-12 h-12 ${paybackStatus.bgColor} rounded-xl flex items-center justify-center`}>
                 <StatusIcon className={`w-6 h-6 ${paybackStatus.color}`} />
               </div>
               <div>
-                <h4 className="font-semibold text-text-primary">Tilbakebetalingstid</h4>
-                <p className="text-sm text-text-secondary">{paybackStatus.message}</p>
+                <h4 className="font-semibold text-gray-900">Tilbakebetalingstid</h4>
+                <p className="text-sm text-gray-600">{paybackStatus.message}</p>
               </div>
             </div>
             <div className={`text-3xl font-bold ${paybackStatus.color}`}>
@@ -126,59 +126,58 @@ export default function ResultCard({ result, fylke }: ResultCardProps) {
         </div>
 
         {/* Cost Breakdown */}
-        <div className="bg-white rounded-2xl p-6 border border-border-muted shadow-soft mb-8">
-          <h4 className="text-lg font-semibold text-text-primary mb-6 flex items-center gap-2">
-            <DollarSign className="w-5 h-5 text-primary-600" />
+        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-lg mb-8">
+          <h4 className="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
+            <DollarSign className="w-5 h-5 text-blue-600" />
             Kostnadsoversikt
           </h4>
           <div className="space-y-4">
-            <div className="flex justify-between items-center py-3 border-b border-border-muted">
-              <span className="text-text-secondary">Systemkostnad</span>
-              <span className="font-semibold text-text-primary">{formatCurrency(result.systemCost)}</span>
+            <div className="flex justify-between items-center py-3 border-b border-gray-100">
+              <span className="text-gray-600">Systemkostnad</span>
+              <span className="font-semibold text-gray-900">{formatCurrency(result.systemCost)}</span>
             </div>
-            <div className="flex justify-between items-center py-3 border-b border-border-muted">
-              <span className="text-text-secondary flex items-center gap-2">
-                <Gift className="w-4 h-4 text-success-600" />
+            <div className="flex justify-between items-center py-3 border-b border-gray-100">
+              <span className="text-gray-600 flex items-center gap-2">
+                <Gift className="w-4 h-4 text-green-600" />
                 Støtte fra Enova
               </span>
-              <span className="font-semibold text-success-600">-{formatCurrency(result.enovaSupport)}</span>
+              <span className="font-semibold text-green-600">-{formatCurrency(result.enovaSupport)}</span>
             </div>
             {result.localSupport > 0 && (
-              <div className="flex justify-between items-center py-3 border-b border-border-muted">
-                <span className="text-text-secondary flex items-center gap-2">
-                  <Gift className="w-4 h-4 text-success-600" />
+              <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                <span className="text-gray-600 flex items-center gap-2">
+                  <Gift className="w-4 h-4 text-green-600" />
                   Lokal støtte
                 </span>
-                <span className="font-semibold text-success-600">-{formatCurrency(result.localSupport)}</span>
+                <span className="font-semibold text-green-600">-{formatCurrency(result.localSupport)}</span>
               </div>
             )}
-            <div className="flex justify-between items-center py-3 bg-primary-50 rounded-xl px-4">
-              <span className="font-semibold text-text-primary">Netto kostnad</span>
-              <span className="text-2xl font-bold text-primary-600">{formatCurrency(result.netCost)}</span>
+            <div className="flex justify-between items-center py-3 bg-blue-50 rounded-xl px-4">
+              <span className="font-semibold text-gray-900">Netto kostnad</span>
+              <span className="text-2xl font-bold text-blue-600">{formatCurrency(result.netCost)}</span>
             </div>
           </div>
         </div>
 
         {/* CTA Section */}
         <div className="text-center">
-          <button className="group relative w-full bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white py-4 px-8 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg mb-4">
+          <button className="group relative w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-4 px-8 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg mb-4">
             <div className="flex items-center justify-center gap-3">
               <Mail className="w-5 h-5" />
               Kontakt installatør
             </div>
-            <div className="absolute inset-0 bg-gradient-to-r from-primary-700 to-primary-800 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </button>
-          <p className="text-sm text-text-secondary">
+          <p className="text-sm text-gray-600">
             Få tilbud fra lokale installatører i {fylke}
           </p>
         </div>
       </div>
 
       {/* Disclaimer */}
-      <div className="bg-background-muted px-8 py-4 border-t border-border-muted">
+      <div className="bg-gray-50 px-8 py-4 border-t border-gray-100">
         <div className="flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-text-muted mt-0.5 flex-shrink-0" />
-          <p className="text-sm text-text-secondary">
+          <AlertCircle className="w-5 h-5 text-gray-500 mt-0.5 flex-shrink-0" />
+          <p className="text-sm text-gray-600">
             <strong>Merk:</strong> Beregningene er estimater basert på gjennomsnittlige forhold. 
             Faktiske resultater kan variere avhengig av lokale forhold og installasjonskvalitet.
           </p>

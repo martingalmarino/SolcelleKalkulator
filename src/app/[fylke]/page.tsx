@@ -62,25 +62,23 @@ export default function FylkePage({ params }: FylkePageProps) {
   const enovaSupport = incentivesData.enova;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       {/* Fylke Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary-50 via-white to-success-50 py-20 lg:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-        
+      <section className="relative bg-gradient-to-br from-blue-50 via-white to-green-50 py-20 lg:py-32 overflow-hidden">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 bg-primary-100 text-primary-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
               <MapPin className="w-4 h-4" />
               {fylkeName} fylke
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
               Solceller i{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-success-600">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-600">
                 {fylkeName}
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-text-secondary max-w-4xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
               Beregn din besparelse med solceller i {fylkeName}. 
               Få oversikt over tilgjengelig støtte og tilbakebetalingstid for ditt område.
             </p>
@@ -88,38 +86,38 @@ export default function FylkePage({ params }: FylkePageProps) {
 
           {/* Fylke-specific info cards */}
           <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <div className="bg-white rounded-2xl p-8 shadow-elevated border border-border-muted text-center group hover:shadow-xl transition-all duration-300">
-              <div className="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                <Zap className="w-8 h-8 text-primary-600" />
+            <div className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100 text-center group hover:shadow-2xl transition-all duration-300">
+              <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Zap className="w-8 h-8 text-blue-600" />
               </div>
-              <h3 className="text-xl font-semibold text-text-primary mb-2">Strømpris</h3>
-              <p className="text-3xl font-bold text-primary-600 mb-2">{powerPrice} NOK/kWh</p>
-              <p className="text-text-secondary">Gjennomsnittlig pris i {fylkeName}</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Strømpris</h3>
+              <p className="text-3xl font-bold text-blue-600 mb-2">{powerPrice} NOK/kWh</p>
+              <p className="text-gray-600">Gjennomsnittlig pris i {fylkeName}</p>
             </div>
             
-            <div className="bg-white rounded-2xl p-8 shadow-elevated border border-border-muted text-center group hover:shadow-xl transition-all duration-300">
-              <div className="w-16 h-16 bg-success-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                <Building2 className="w-8 h-8 text-success-600" />
+            <div className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100 text-center group hover:shadow-2xl transition-all duration-300">
+              <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Building2 className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="text-xl font-semibold text-text-primary mb-2">Enova-støtte</h3>
-              <p className="text-3xl font-bold text-success-600 mb-2">{enovaSupport.baseGrantNOK.toLocaleString()} NOK</p>
-              <p className="text-text-secondary">Grunnstøtte + {enovaSupport.perKWNOK} NOK/kW</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Enova-støtte</h3>
+              <p className="text-3xl font-bold text-green-600 mb-2">{enovaSupport.baseGrantNOK.toLocaleString()} NOK</p>
+              <p className="text-gray-600">Grunnstøtte + {enovaSupport.perKWNOK} NOK/kW</p>
             </div>
             
-            <div className="bg-white rounded-2xl p-8 shadow-elevated border border-border-muted text-center group hover:shadow-xl transition-all duration-300">
-              <div className="w-16 h-16 bg-success-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                <TrendingUp className="w-8 h-8 text-success-600" />
+            <div className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100 text-center group hover:shadow-2xl transition-all duration-300">
+              <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <TrendingUp className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="text-xl font-semibold text-text-primary mb-2">Lokal støtte</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Lokal støtte</h3>
               {localSupport ? (
                 <>
-                  <p className="text-3xl font-bold text-success-600 mb-2">{localSupport.extraGrantNOK.toLocaleString()} NOK</p>
-                  <p className="text-text-secondary">Ekstra tilskudd fra {fylkeName}</p>
+                  <p className="text-3xl font-bold text-green-600 mb-2">{localSupport.extraGrantNOK.toLocaleString()} NOK</p>
+                  <p className="text-gray-600">Ekstra tilskudd fra {fylkeName}</p>
                 </>
               ) : (
                 <>
-                  <p className="text-2xl font-bold text-text-secondary mb-2">Ikke tilgjengelig</p>
-                  <p className="text-text-secondary">Kontakt din kommune</p>
+                  <p className="text-2xl font-bold text-gray-600 mb-2">Ikke tilgjengelig</p>
+                  <p className="text-gray-600">Kontakt din kommune</p>
                 </>
               )}
             </div>

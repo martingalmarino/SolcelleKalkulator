@@ -39,37 +39,37 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-text-primary text-white">
+    <footer className="bg-gray-900 text-white">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-400 to-primary-600 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center">
                 <Sun className="w-6 h-6 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold">Solcelle Kalkulator</h3>
-                <p className="text-text-muted text-sm">Beregn din besparelse</p>
+                <p className="text-gray-400 text-sm">Beregn din besparelse</p>
               </div>
             </div>
-            <p className="text-text-muted leading-relaxed mb-6 max-w-md">
+            <p className="text-gray-400 leading-relaxed mb-6 max-w-md">
               Vi hjelper norske husholdninger med å beregne besparelse og tilbakebetalingstid 
               for solcelleanlegg med de nyeste dataene og teknologien.
             </p>
             
             {/* Contact Info */}
             <div className="space-y-3">
-              <div className="flex items-center gap-3 text-text-muted">
+              <div className="flex items-center gap-3 text-gray-400">
                 <Mail className="w-4 h-4" />
                 <span className="text-sm">kontakt@solcellekalkulator.no</span>
               </div>
-              <div className="flex items-center gap-3 text-text-muted">
+              <div className="flex items-center gap-3 text-gray-400">
                 <Phone className="w-4 h-4" />
                 <span className="text-sm">+47 123 45 678</span>
               </div>
-              <div className="flex items-center gap-3 text-text-muted">
+              <div className="flex items-center gap-3 text-gray-400">
                 <MapPin className="w-4 h-4" />
                 <span className="text-sm">Oslo, Norge</span>
               </div>
@@ -84,7 +84,7 @@ export default function Footer() {
                 <li key={index}>
                   <a 
                     href={link.href}
-                    className="text-text-muted hover:text-white transition-colors duration-200 text-sm flex items-center gap-1"
+                    className="text-gray-400 hover:text-white transition-colors duration-200 text-sm flex items-center gap-1"
                   >
                     {link.name}
                     <ExternalLink className="w-3 h-3" />
@@ -102,7 +102,7 @@ export default function Footer() {
                 <li key={index}>
                   <a 
                     href={link.href}
-                    className="text-text-muted hover:text-white transition-colors duration-200 text-sm flex items-center gap-1"
+                    className="text-gray-400 hover:text-white transition-colors duration-200 text-sm flex items-center gap-1"
                   >
                     {link.name}
                     <ExternalLink className="w-3 h-3" />
@@ -120,7 +120,7 @@ export default function Footer() {
                 <li key={index}>
                   <a 
                     href={link.href}
-                    className="text-text-muted hover:text-white transition-colors duration-200 text-sm flex items-center gap-1"
+                    className="text-gray-400 hover:text-white transition-colors duration-200 text-sm flex items-center gap-1"
                   >
                     {link.name}
                     <ExternalLink className="w-3 h-3" />
@@ -138,7 +138,7 @@ export default function Footer() {
                 <li key={index}>
                   <a 
                     href={link.href}
-                    className="text-text-muted hover:text-white transition-colors duration-200 text-sm flex items-center gap-1"
+                    className="text-gray-400 hover:text-white transition-colors duration-200 text-sm flex items-center gap-1"
                   >
                     {link.name}
                     <ExternalLink className="w-3 h-3" />
@@ -154,11 +154,11 @@ export default function Footer() {
       <div className="border-t border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-2 text-text-muted text-sm">
+            <div className="flex items-center gap-2 text-gray-400 text-sm">
               <span>© {currentYear} Solcelle Kalkulator. Alle rettigheter forbeholdt.</span>
             </div>
             
-            <div className="flex items-center gap-2 text-text-muted text-sm">
+            <div className="flex items-center gap-2 text-gray-400 text-sm">
               <span>Laget med</span>
               <Heart className="w-4 h-4 text-red-400 fill-current" />
               <span>i Norge</span>
